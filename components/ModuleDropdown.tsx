@@ -172,29 +172,21 @@ export default function ModuleDropdown({
           e.stopPropagation();
           onToggle();
         }}
-        className={`w-full lg:w-auto flex items-center justify-between lg:justify-center font-extrabold gap-2 px-4 py-3 text-base rounded-lg transition-all duration-200 cursor-pointer ${
+        className={`flex items-center justify-center font-bold gap-1.5 px-3 xl:px-4 py-2 text-sm xl:text-base rounded-lg transition-all duration-200 cursor-pointer whitespace-nowrap ${
           isOpen
             ? 'text-blue-600 bg-blue-50'
             : 'text-gray-700 hover:text-blue-600 hover:bg-blue-50'
         }`}
       >
-        <span className="flex flex-col lg:flex-col items-start lg:items-center leading-tight text-left lg:text-center">
-          {title.includes(' Insurance') ? (
-            <>
-              <span>{title.replace(' Insurance', '')}</span>
-              <span>Insurance</span>
-            </>
-          ) : (
-            <span>{title}</span>
-          )}
-        </span>
+        <span>{title}</span>
         <svg
-          className={`w-5 h-5 transition-transform duration-200 flex-shrink-0 ${
+          className={`w-4 h-4 transition-transform duration-200 shrink-0 ${
             isOpen ? 'rotate-180' : ''
           }`}
           fill="none"
           stroke="currentColor"
           viewBox="0 0 24 24"
+          aria-hidden
         >
           <path
             strokeLinecap="round"

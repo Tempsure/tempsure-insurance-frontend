@@ -194,7 +194,7 @@ export default function Navbar() {
   return (
     <>
       <nav
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-[var(--duration-smooth)] ease-[var(--ease-smooth)] lg:left-20 lg:right-20 lg:rounded-b-[20px] ${
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-[var(--duration-smooth)] ease-[var(--ease-smooth)] lg:left-6 lg:right-6 xl:left-12 xl:right-12 lg:rounded-b-[20px] ${
           scrolled || mobileMenuOpen ? 'shadow-lg' : 'shadow-md'
         }`}
         style={{
@@ -202,22 +202,24 @@ export default function Navbar() {
           backdropFilter: 'blur(12px)',
         }}
       >
-        <div className="flex items-center justify-between max-w-7xl mx-auto px-4 sm:px-5 py-3 sm:py-4">
+        <div className="flex items-center gap-3 xl:gap-6 max-w-7xl mx-auto px-4 sm:px-6 py-3">
           <Link
             href="/"
             onClick={handleMobileMenuClose}
-            className="flex items-center space-x-2 cursor-pointer hover:opacity-90 transition-opacity duration-[var(--duration-smooth)] ease-[var(--ease-smooth)] group min-w-0"
+            className="flex items-center gap-2 cursor-pointer hover:opacity-90 transition-opacity duration-[var(--duration-smooth)] ease-[var(--ease-smooth)] group shrink-0"
           >
             <div className="w-9 h-9 sm:w-10 sm:h-10 bg-linear-to-br from-blue-600 to-blue-800 rounded-lg flex items-center justify-center shadow-md shadow-blue-600/25 transition-transform duration-[var(--duration-smooth)] ease-[var(--ease-smooth)] group-hover:scale-105 shrink-0">
               <ShieldCheck className="w-5 h-5 sm:w-6 sm:h-6 text-white" strokeWidth={2.5} aria-hidden />
             </div>
-            <span className="text-xl sm:text-2xl font-bold text-gray-900 truncate">TempSure</span>
+            <span className="text-xl sm:text-2xl font-bold text-gray-900 whitespace-nowrap">
+              Temp<span className="text-blue-600">Sure</span>
+            </span>
           </Link>
 
           {/* Desktop nav */}
-          <div className="hidden lg:flex items-center space-x-8 xl:space-x-12">
+          <div className="hidden lg:flex flex-1 items-center justify-center gap-1 xl:gap-2 min-w-0">
             <ModuleDropdown
-              title="Temporary Car Insurance"
+              title="Car Insurance"
               dropdown={{
                 title: modules.car.title,
                 description: modules.car.description,
@@ -232,7 +234,7 @@ export default function Navbar() {
               moduleType="car"
             />
             <ModuleDropdown
-              title="Temporary Van Insurance"
+              title="Van Insurance"
               dropdown={{
                 title: modules.van.title,
                 description: modules.van.description,
@@ -247,7 +249,7 @@ export default function Navbar() {
               moduleType="van"
             />
             <ModuleDropdown
-              title="Learner Driver Insurance"
+              title="Learner Insurance"
               dropdown={{
                 title: modules.learner.title,
                 description: modules.learner.description,
@@ -263,15 +265,15 @@ export default function Navbar() {
             />
           </div>
 
-          <div className="hidden lg:flex items-center gap-3">
+          <div className="hidden lg:flex items-center gap-2 xl:gap-3 shrink-0">
             {isLoggedIn && (
-              <Link href="/dashboard" className="px-5 py-2.5 text-blue-600 font-semibold hover:underline text-sm xl:text-base">
+              <Link href="/dashboard" className="px-3 xl:px-4 py-2 text-blue-600 font-semibold hover:underline text-sm whitespace-nowrap">
                 My Account
               </Link>
             )}
             <button
               onClick={handleNavAuth}
-              className="flex px-7 xl:px-10 py-2.5 bg-blue-600 text-white rounded-full font-semibold hover:bg-blue-50 hover:text-blue-600 transition-all duration-[var(--duration-smooth)] ease-[var(--ease-smooth)] shadow-md hover:shadow-lg cursor-pointer items-center gap-2 text-sm xl:text-base"
+              className="flex px-5 xl:px-7 py-2.5 bg-blue-600 text-white rounded-full font-semibold hover:bg-blue-700 transition-all duration-[var(--duration-smooth)] ease-[var(--ease-smooth)] shadow-md hover:shadow-lg cursor-pointer items-center gap-2 text-sm whitespace-nowrap"
             >
               <span>{isLoggedIn ? 'Sign Out' : 'Sign In'}</span>
               {isLoggedIn ? <LogOut className="w-4 h-4" aria-hidden /> : <LogIn className="w-4 h-4" aria-hidden />}
@@ -281,7 +283,7 @@ export default function Navbar() {
           {/* Mobile menu toggle */}
           <button
             type="button"
-            className="lg:hidden inline-flex items-center justify-center w-11 h-11 rounded-xl text-gray-800 hover:bg-blue-50 hover:text-blue-600 transition-colors cursor-pointer"
+            className="lg:hidden ml-auto inline-flex items-center justify-center w-11 h-11 rounded-xl text-gray-800 hover:bg-blue-50 hover:text-blue-600 transition-colors cursor-pointer"
             onClick={() => setMobileMenuOpen(prev => !prev)}
             aria-label={mobileMenuOpen ? 'Close menu' : 'Open menu'}
             aria-expanded={mobileMenuOpen}
