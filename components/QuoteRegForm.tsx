@@ -30,7 +30,7 @@ export default function QuoteRegForm({ className = '' }: QuoteRegFormProps) {
   };
 
   return (
-    <div className={`max-w-3xl mx-auto ${className}`}>
+    <div id="quote-reg-form" className={`max-w-3xl mx-auto ${className}`}>
       <div className="hero-quote-panel flex flex-col sm:flex-row items-stretch gap-3 sm:gap-4 p-3 sm:p-4">
         <div
           className={`relative flex-1 flex items-center rounded-xl sm:rounded-2xl overflow-hidden border-[3px] transition-all duration-[var(--duration-smooth)] ease-[var(--ease-smooth)] ${

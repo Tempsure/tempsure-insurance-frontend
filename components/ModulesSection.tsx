@@ -11,6 +11,7 @@ interface ModuleCardProps {
   features: string[];
   icon: React.ReactNode;
   delay: number;
+  onGetQuote: () => void;
 }
 
 function ModuleCard({
@@ -21,6 +22,7 @@ function ModuleCard({
   features,
   icon,
   delay,
+  onGetQuote,
 }: ModuleCardProps) {
   const [isVisible, setIsVisible] = useState(false);
   const cardRef = useRef<HTMLDivElement>(null);
@@ -97,7 +99,11 @@ function ModuleCard({
         </ul>
 
         {/* CTA Button */}
-        <button className="mt-6 w-full px-6 py-3 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700 transition-all duration-[var(--duration-smooth)] ease-[var(--ease-smooth)] hover:-translate-y-0.5 shadow-md hover:shadow-lg cursor-pointer flex items-center justify-center gap-2 group/btn">
+        <button
+          type="button"
+          onClick={onGetQuote}
+          className="mt-6 w-full px-6 py-3 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700 transition-all duration-[var(--duration-smooth)] ease-[var(--ease-smooth)] hover:-translate-y-0.5 shadow-md hover:shadow-lg cursor-pointer flex items-center justify-center gap-2 group/btn"
+        >
           Get Quote
           <ArrowRight className="w-4 h-4 transition-transform duration-[var(--duration-smooth)] ease-[var(--ease-smooth)] group-hover/btn:translate-x-1" aria-hidden />
         </button>
@@ -107,6 +113,19 @@ function ModuleCard({
 }
 
 export default function ModulesSection() {
+  const scrollToQuote = () => {
+    const quote = document.getElementById('quote-reg-form');
+    if (quote) {
+      quote.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      const input = quote.querySelector('input');
+      if (input instanceof HTMLInputElement) {
+        window.setTimeout(() => input.focus(), 400);
+      }
+      return;
+    }
+    document.getElementById('home')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  };
+
   const modules = [
     {
       title: 'Temporary Car Insurance',
@@ -176,6 +195,7 @@ export default function ModulesSection() {
             features={module.features}
             icon={module.icon}
             delay={index * 150}
+            onGetQuote={scrollToQuote}
           />
         ))}
       </div>

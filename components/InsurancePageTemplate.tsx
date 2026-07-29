@@ -126,7 +126,7 @@ export default function InsurancePageTemplate({ data }: InsurancePageTemplatePro
           </p>
 
           {/* Registration Input — matches homepage UK plate style */}
-          <div id="quote-reg-form" className="animate-fade-in-up animation-delay-600">
+          <div className="animate-fade-in-up animation-delay-600">
             <QuoteRegForm />
           </div>
 
