@@ -36,7 +36,17 @@ export async function POST(request: NextRequest) {
     const secretKey = process.env.STRIPE_SECRET_KEY || process.env.VITE_STRIPE_SECRET_KEY;
     if (!secretKey) {
       return NextResponse.json(
-        { error: 'Stripe secret key is missing. Set STRIPE_SECRET_KEY in .env.local.' },
+        { error: 'Stripe secret key is missing. Set STRIPE_SECRET_KEY in Vercel Environment Variables.' },
+        { status: 500 },
+      );
+    }
+
+    if (!secretKey.startsWith('sk_')) {
+      return NextResponse.json(
+        {
+          error:
+            'Invalid Stripe secret key. Use the Secret key (sk_test_... or sk_live_...), not the publishable key (pk_...).',
+        },
         { status: 500 },
       );
     }
@@ -44,6 +54,14 @@ export async function POST(request: NextRequest) {
     const stripe = new Stripe(secretKey);
     const origin = request.headers.get('origin') ?? new URL(request.url).origin;
     const unitAmount = Math.round(body.amount * 100);
+
+    if (!Number.isFinite(unitAmount) || unitAmount < 30) {
+      return NextResponse.json(
+        { error: 'Amount is too low for Stripe Checkout (minimum is £0.30).' },
+        { status: 400 },
+      );
+    }
+
     const currency = (body.currency || 'gbp').toLowerCase();
 
     // Merge quoteSessionId into metadata so the webhook can create the policy
@@ -75,8 +93,16 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ url: session.url });
   } catch (error) {
     console.error('Stripe checkout session error:', error);
+    const stripeMessage =
+      error && typeof error === 'object' && 'message' in error
+        ? String((error as { message: unknown }).message)
+        : null;
     return NextResponse.json(
-      { error: 'Could not start checkout. Please try again.' },
+      {
+        error: stripeMessage
+          ? `Stripe error: ${stripeMessage}`
+          : 'Could not start checkout. Please try again.',
+      },
       { status: 500 },
     );
   }

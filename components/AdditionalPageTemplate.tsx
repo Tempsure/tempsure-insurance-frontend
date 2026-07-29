@@ -1,10 +1,10 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
-import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import ProcessSection from './ProcessSection';
 import CardIcon from './CardIcon';
+import QuoteRegForm from './QuoteRegForm';
 
 interface AdditionalPageData {
   title: string;
@@ -38,10 +38,6 @@ interface AdditionalPageTemplateProps {
 }
 
 export default function AdditionalPageTemplate({ data }: AdditionalPageTemplateProps) {
-  const router = useRouter();
-  const [regNumber, setRegNumber] = useState('');
-  const [isFocused, setIsFocused] = useState(false);
-  const [errorMessage, setErrorMessage] = useState('');
   const [openFaq, setOpenFaq] = useState<number | null>(null);
   const sectionsRef = useRef<(HTMLElement | null)[]>([]);
 
@@ -74,16 +70,8 @@ export default function AdditionalPageTemplate({ data }: AdditionalPageTemplateP
     return () => observer.disconnect();
   }, []);
 
-  const handleGetQuote = () => {
-    if (!regNumber.trim()) {
-      setErrorMessage('Please enter your registration number');
-      setTimeout(() => setErrorMessage(''), 3000);
-      return;
-    }
-    setErrorMessage('');
-    // Redirect to vehicle details page
-    const encodedReg = encodeURIComponent(regNumber.trim().toUpperCase());
-    router.push(`/vehicle/${encodedReg}`);
+  const scrollToQuote = () => {
+    document.getElementById('quote-reg-form')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
   };
 
   return (
@@ -129,43 +117,10 @@ export default function AdditionalPageTemplate({ data }: AdditionalPageTemplateP
             {data.description}
           </p>
 
-          {/* Registration Input */}
-          <div className="flex flex-col md:flex-row gap-6 max-w-3xl mx-auto animate-fade-in-up animation-delay-600">
-            <div className="flex-1 relative">
-              <div className="absolute left-4 top-1/2 -translate-y-1/2 z-10">
-                <svg className="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>
-              </div>
-              <input
-                type="text"
-                value={regNumber}
-                onChange={(e) => setRegNumber(e.target.value.toUpperCase())}
-                onFocus={() => setIsFocused(true)}
-                onBlur={() => setIsFocused(false)}
-                placeholder="Enter Reg"
-                className={`w-full pl-14 pr-8 py-6 text-2xl md:text-3xl font-bold rounded-2xl border-4 transition-all duration-300 ${
-                  isFocused
-                    ? 'border-blue-600 shadow-2xl shadow-blue-300 scale-[1.02]'
-                    : 'border-gray-300 shadow-xl'
-                } focus:outline-none focus:ring-4 focus:ring-blue-300`}
-                style={{ backgroundColor: '#ffffff' }}
-              />
-              {isFocused && (
-                <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-blue-400/20 to-blue-600/20 pointer-events-none animate-pulse" />
-              )}
-            </div>
-            <button
-              onClick={handleGetQuote}
-              className="px-12 py-6 text-2xl md:text-3xl font-bold rounded-2xl transition-all duration-300 transform hover:scale-105 active:scale-95 shadow-2xl whitespace-nowrap bg-blue-600 text-white hover:bg-blue-700 hover:shadow-2xl hover:shadow-blue-500 cursor-pointer"
-            >
-              Get a Quote
-            </button>
+          {/* Registration Input — matches homepage UK plate style */}
+          <div id="quote-reg-form" className="animate-fade-in-up animation-delay-600">
+            <QuoteRegForm />
           </div>
-
-          {errorMessage && (
-            <p className="mt-4 text-red-600 text-lg font-semibold animate-fade-in-up">{errorMessage}</p>
-          )}
 
           <p className="mt-6 text-gray-600 text-md animate-fade-in-up animation-delay-800">
             Don't know the reg? <a href="#" className="text-blue-600 hover:text-blue-700 underline cursor-pointer">Click here</a>.
@@ -226,7 +181,7 @@ export default function AdditionalPageTemplate({ data }: AdditionalPageTemplateP
 
               {/* Get Quote Button */}
               <button
-                onClick={handleGetQuote}
+                onClick={scrollToQuote}
                 data-animate-child
                 className="opacity-0 w-full px-8 py-3 bg-blue-600 text-white rounded-xl font-bold text-lg hover:bg-blue-700 transition-all duration-300 hover:scale-110 hover:-translate-y-1 shadow-lg hover:shadow-2xl hover:shadow-blue-500/50 cursor-pointer flex items-center justify-center gap-3 group"
               >
@@ -338,7 +293,7 @@ export default function AdditionalPageTemplate({ data }: AdditionalPageTemplateP
           {/* CTA Button */}
           <div className="mt-12 flex justify-center">
             <button
-              onClick={handleGetQuote}
+              onClick={scrollToQuote}
               data-animate-child
               className="opacity-0 px-12 py-4 bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-xl font-bold text-xl hover:from-blue-700 hover:to-blue-800 transition-all duration-300 hover:scale-110 hover:-translate-y-1 shadow-2xl hover:shadow-blue-500/50 cursor-pointer flex items-center justify-center gap-3 group"
             >
