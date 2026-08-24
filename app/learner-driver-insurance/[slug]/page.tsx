@@ -2,23 +2,10 @@ import InsurancePageTemplate from '@/components/InsurancePageTemplate';
 import AdditionalPageTemplate from '@/components/AdditionalPageTemplate';
 import { insurancePagesData } from '@/data/insurancePages';
 import { additionalPagesData } from '@/data/additionalPages';
+import { learnerInsuranceSlugs } from '@/lib/public-routes';
 
 export async function generateStaticParams() {
-  const durations = [
-    { slug: 'hourly' },
-    { slug: 'daily' },
-    { slug: 'weekly' },
-    { slug: 'monthly' },
-  ];
-
-  const additionalPages = [
-    { slug: 'driving-test' },
-    { slug: 'learner-drivers-on-parents-car' },
-    { slug: 'pay-as-you-go-learner' },
-    { slug: 'learner-driver-practice' },
-  ];
-
-  return [...durations, ...additionalPages];
+  return learnerInsuranceSlugs.map((slug) => ({ slug }));
 }
 
 export default async function LearnerDriverInsurancePage({

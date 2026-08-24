@@ -2,26 +2,10 @@ import InsurancePageTemplate from '@/components/InsurancePageTemplate';
 import AdditionalPageTemplate from '@/components/AdditionalPageTemplate';
 import { insurancePagesData } from '@/data/insurancePages';
 import { additionalPagesData } from '@/data/additionalPages';
+import { vanInsuranceSlugs } from '@/lib/public-routes';
 
 export async function generateStaticParams() {
-  const durations = [
-    { slug: 'hourly' },
-    { slug: 'daily' },
-    { slug: 'weekly' },
-    { slug: 'monthly' },
-  ];
-
-  const additionalPages = [
-    { slug: 'van-impound-release' },
-    { slug: 'temporary-business-van' },
-    { slug: 'pay-as-you-go-van' },
-    { slug: 'temporary-food-delivery-van' },
-    { slug: 'temporary-courier-van' },
-    { slug: 'temporary-carriage-of-own-goods-van' },
-    { slug: 'pay-as-you-go-hire-and-reward-van' },
-  ];
-
-  return [...durations, ...additionalPages];
+  return vanInsuranceSlugs.map((slug) => ({ slug }));
 }
 
 export default async function TemporaryVanInsurancePage({

@@ -2,27 +2,10 @@ import InsurancePageTemplate from '@/components/InsurancePageTemplate';
 import AdditionalPageTemplate from '@/components/AdditionalPageTemplate';
 import { insurancePagesData } from '@/data/insurancePages';
 import { additionalPagesData } from '@/data/additionalPages';
+import { carInsuranceSlugs } from '@/lib/public-routes';
 
 export async function generateStaticParams() {
-  const durations = [
-    { slug: 'hourly' },
-    { slug: 'daily' },
-    { slug: 'weekly' },
-    { slug: 'monthly' },
-  ];
-
-  const additionalPages = [
-    { slug: 'pay-as-you-go' },
-    { slug: 'car-impound-release' },
-    { slug: 'courtesy-car' },
-    { slug: 'temporary-european' },
-    { slug: 'non-uk-residents' },
-    { slug: 'temporary-business' },
-    { slug: 'under-21' },
-    { slug: 'student' },
-  ];
-
-  return [...durations, ...additionalPages];
+  return carInsuranceSlugs.map((slug) => ({ slug }));
 }
 
 export default async function TemporaryCarInsurancePage({
