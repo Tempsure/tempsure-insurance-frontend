@@ -19,6 +19,9 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "TempSure Insurance - Get Your Car Insurance Quote",
   description: "Get instant car insurance quotes by entering your registration number. Fast, reliable, and affordable coverage.",
+  verification: {
+    google: "CG4wWHQBJO4FzfObFyGfa2npzjnn01X2ZmgR0dnp0rw",
+  },
   icons: {
     icon: [
       { url: "/favicon.ico", sizes: "any" },
