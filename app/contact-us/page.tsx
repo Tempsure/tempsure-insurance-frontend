@@ -15,6 +15,7 @@ export default function ContactUs() {
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
+  const [submitError, setSubmitError] = useState('');
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -38,17 +39,31 @@ export default function ContactUs() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
-    
-    // Simulate form submission
-    setTimeout(() => {
-      setIsSubmitting(false);
+    setSubmitStatus('idle');
+    setSubmitError('');
+
+    try {
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData),
+      });
+      const data = (await response.json().catch(() => null)) as { error?: string } | null;
+
+      if (!response.ok) {
+        setSubmitStatus('error');
+        setSubmitError(data?.error || 'We could not send your message. Please try again.');
+        return;
+      }
+
       setSubmitStatus('success');
       setFormData({ name: '', email: '', phone: '', subject: '', message: '' });
-      
-      setTimeout(() => {
-        setSubmitStatus('idle');
-      }, 5000);
-    }, 1500);
+    } catch {
+      setSubmitStatus('error');
+      setSubmitError('We could not send your message. Please try again.');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
@@ -156,6 +171,12 @@ export default function ContactUs() {
                 <p className="text-green-800 font-semibold">
                   ✓ Thank you! Your message has been sent successfully. We'll get back to you soon.
                 </p>
+              </div>
+            )}
+
+            {submitStatus === 'error' && (
+              <div className="mb-6 p-4 bg-red-50 border-2 border-red-200 rounded-xl">
+                <p className="text-red-800 font-semibold">{submitError}</p>
               </div>
             )}
 
