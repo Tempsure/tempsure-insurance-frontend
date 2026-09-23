@@ -84,9 +84,9 @@ export default function ContactUs() {
     {
       title: 'Email',
       description: 'Send us an email anytime',
-      value: 'info@tempsureinsurance.com',
+      value: 'info@tempsureinsurance.co.uk',
       icon: <Mail className="w-7 h-7" strokeWidth={2} aria-hidden />,
-      link: 'mailto:info@tempsureinsurance.com',
+      link: 'mailto:info@tempsureinsurance.co.uk',
     },
     {
       title: 'Address',

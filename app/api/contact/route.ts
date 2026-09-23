@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 
 export const runtime = 'nodejs';
 
-const CONTACT_TO = 'info@tempsureinsurance.com';
+const CONTACT_TO = 'info@tempsureinsurance.co.uk';
 const CONTACT_FROM = 'TempSure Insurance <noreply@tempsureinsurance.co.uk>';
 
 const SUBJECTS: Record<string, string> = {
@@ -64,7 +64,7 @@ export async function POST(request: NextRequest) {
   const apiKey = process.env.RESEND_API_KEY;
   if (!apiKey) {
     return NextResponse.json(
-      { error: 'Email is not configured yet. Please call us or email info@tempsureinsurance.com directly.' },
+      { error: 'Email is not configured yet. Please call us or email info@tempsureinsurance.co.uk directly.' },
       { status: 500 },
     );
   }
@@ -95,7 +95,7 @@ export async function POST(request: NextRequest) {
 
   if (!resendResponse.ok) {
     return NextResponse.json(
-      { error: 'We could not send your message. Please email info@tempsureinsurance.com directly.' },
+      { error: 'We could not send your message. Please email info@tempsureinsurance.co.uk directly.' },
       { status: 502 },
     );
   }
