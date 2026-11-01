@@ -41,11 +41,11 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    if (!secretKey.startsWith('sk_')) {
+    if (!secretKey.startsWith('sk_') && !secretKey.startsWith('rk_')) {
       return NextResponse.json(
         {
           error:
-            'Invalid Stripe secret key. Use the Secret key (sk_test_... or sk_live_...), not the publishable key (pk_...).',
+            'Invalid Stripe secret key. Use a Secret key (sk_...) or Restricted key (rk_...), not the publishable key (pk_...).',
         },
         { status: 500 },
       );
@@ -70,8 +70,12 @@ export async function POST(request: NextRequest) {
       ...(body.quoteSessionId ? { quoteSessionId: body.quoteSessionId } : {}),
     };
 
-    const session = await stripe.checkout.sessions.create({
-      mode: 'payment',
+    // Insurance is not an eligible Managed Payments category. Stripe enabled
+    // Managed Payments by default on this account; turn it off for this session.
+    // The SDK types may lag the API, so the flag is passed through a cast.
+    const sessionParams = {
+      mode: 'payment' as const,
+      managed_payments: { enabled: false },
       success_url: `${origin}/quotes?payment=success&session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${origin}/quotes?payment=cancelled`,
       line_items: [
@@ -88,7 +92,10 @@ export async function POST(request: NextRequest) {
         },
       ],
       metadata: sanitizeMetadata(rawMetadata),
-    });
+    };
+    const session = await stripe.checkout.sessions.create(
+      sessionParams as Stripe.Checkout.SessionCreateParams,
+    );
 
     return NextResponse.json({ url: session.url });
   } catch (error) {
