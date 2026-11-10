@@ -100,5 +100,24 @@ export async function POST(request: NextRequest) {
     );
   }
 
+  const ingestUrl = process.env.CONTACT_INGEST_URL;
+  const ingestKey = process.env.CONTACT_INGEST_KEY;
+  if (ingestUrl && ingestKey) {
+    await fetch(ingestUrl, {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${ingestKey}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        name,
+        email,
+        phone,
+        subject: subjectLabel,
+        message,
+      }),
+    }).catch(() => undefined);
+  }
+
   return NextResponse.json({ ok: true });
 }

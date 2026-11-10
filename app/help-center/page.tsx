@@ -41,7 +41,7 @@ export default function HelpCenter() {
     },
     {
       question: 'Can I get insurance if I\'m under 25?',
-      answer: 'Yes, but there are age restrictions. For temporary car insurance, you must be at least 18 years old. For van insurance, you must be at least 21 years old. Learner driver insurance is available for those with a valid provisional license, regardless of age.',
+      answer: 'Drivers are usually accepted between 17 and 75. Some products may apply additional rules during the quote. Learner products require a valid provisional licence where applicable.',
     },
     {
       question: 'What types of vehicles can I insure?',
@@ -49,7 +49,7 @@ export default function HelpCenter() {
     },
     {
       question: 'How do I make a claim?',
-      answer: 'If you need to make a claim, contact us immediately at +92 345 8629255 or email claims@tempsureinsurance.com. Have your policy number ready and provide as much detail as possible about the incident. Our claims team will guide you through the process.',
+      answer: 'If you need to make a claim, contact us immediately at 08008629255 or email info@tempsureinsurance.co.uk. Have your policy number ready and provide as much detail as possible about the incident. Our claims team will guide you through the process.',
     },
     {
       question: 'Can I cancel my policy?',
@@ -72,6 +72,7 @@ export default function HelpCenter() {
   const helpCategories = [
     {
       title: 'Getting Started',
+      href: '/faqs#getting-started',
       icon: (
         <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
@@ -85,7 +86,8 @@ export default function HelpCenter() {
       ],
     },
     {
-      title: 'Policy Management',
+      title: 'Policy & Certificates',
+      href: '/faqs#certificates-documents',
       icon: (
         <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
@@ -93,13 +95,14 @@ export default function HelpCenter() {
       ),
       items: [
         'View your policy',
-        'Make changes',
+        'Download certificate',
         'Cancel your policy',
-        'Download documents',
+        'Resend documents',
       ],
     },
     {
       title: 'Claims',
+      href: '/faqs#claims-cancellations-refunds',
       icon: (
         <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
@@ -107,23 +110,24 @@ export default function HelpCenter() {
       ),
       items: [
         'How to make a claim',
-        'Claim status',
         'Required documents',
-        'Claim timeline',
+        'Refunds',
+        'Cancellations',
       ],
     },
     {
       title: 'Account & Billing',
+      href: '/faqs#payment-billing',
       icon: (
         <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" />
         </svg>
       ),
       items: [
-        'Manage your account',
-        'Update payment method',
-        'View invoices',
-        'Download receipts',
+        'Sign in with email + DOB',
+        'Payment receipts',
+        'Charged but no policy',
+        'Contact support',
       ],
     },
   ];
@@ -151,24 +155,25 @@ export default function HelpCenter() {
         <div className="max-w-6xl mx-auto">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {helpCategories.map((category, index) => (
-              <div
-                key={index}
+              <Link
+                key={category.title}
+                href={category.href}
                 ref={(el) => {
                   sectionsRef.current[index] = el as HTMLElement | null;
                 }}
-                className="bg-white rounded-2xl shadow-xl p-6 transition-all duration-300 hover:shadow-2xl hover:scale-105 border-l-4 border-blue-600"
+                className="bg-white rounded-2xl shadow-xl p-6 transition-all duration-300 hover:shadow-2xl hover:scale-105 border-l-4 border-blue-600 block"
               >
                 <div className="text-blue-600 mb-4">{category.icon}</div>
                 <h3 className="text-xl font-bold text-gray-900 mb-4">{category.title}</h3>
                 <ul className="space-y-2">
-                  {category.items.map((item, itemIndex) => (
-                    <li key={itemIndex} className="text-gray-600 text-sm flex items-center gap-2">
+                  {category.items.map((item) => (
+                    <li key={item} className="text-gray-600 text-sm flex items-center gap-2">
                       <span className="w-1.5 h-1.5 rounded-full bg-blue-600" />
                       {item}
                     </li>
                   ))}
                 </ul>
-              </div>
+              </Link>
             ))}
           </div>
         </div>
@@ -233,10 +238,10 @@ export default function HelpCenter() {
                 Contact Us
               </Link>
               <a
-                href="tel:+923458629255"
+                href="tel:08008629255"
                 className="px-8 py-4 bg-white text-blue-600 border-2 border-blue-600 rounded-xl font-bold text-lg hover:bg-blue-50 transition-all duration-300 hover:scale-105 shadow-lg hover:shadow-xl cursor-pointer inline-block text-center"
               >
-                Call Us: +92 345 8629255
+                Call Us: 08008629255
               </a>
             </div>
           </div>

@@ -85,7 +85,7 @@ export default function CookiePolicy() {
       title: 'Contact Us',
       content: `If you have any questions about our use of cookies or this Cookie Policy, please contact us at:
 - Email: privacy@tempsureinsurance.com
-- Phone: +92 345 8629255
+- Phone: 08008629255
 - Address: TempSure Insurance, 5 Brayford Square, London, E1 0SG`,
     },
   ];

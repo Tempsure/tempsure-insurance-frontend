@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Toast from '@/components/Toast';
 import StepProgressBar from '@/components/StepProgressBar';
@@ -47,8 +47,44 @@ export default function PersonalDetailsPage() {
   });
   const [formErrors, setFormErrors] = useState<FormErrors>({});
   const [submitting, setSubmitting] = useState(false);
+  const [hydrating, setHydrating] = useState(true);
   const [toastMessage, setToastMessage] = useState('');
   const [showToast, setShowToast] = useState(false);
+
+  useEffect(() => {
+    const hydrate = async () => {
+      try {
+        const res = await apiFetch('/api/quotes/session/me/');
+        const data = await res.json();
+        if (!res.ok) {
+          setToastMessage(data.error || 'Please start a new quote.');
+          setShowToast(true);
+          router.replace('/');
+          return;
+        }
+        const dob = data.date_of_birth ? String(data.date_of_birth).slice(0, 10).split('-') : null;
+        setFormData({
+          title: data.title || '',
+          firstName: data.first_name || '',
+          lastName: data.last_name || '',
+          dateOfBirth: {
+            day: dob?.[2] ? String(Number(dob[2])) : '',
+            month: dob?.[1] ? String(Number(dob[1])) : '',
+            year: dob?.[0] || '',
+          },
+          occupation: data.occupation || '',
+          address: data.address_line_1 || '',
+          postcode: data.postcode || '',
+        });
+      } catch {
+        setToastMessage('Could not restore your quote. Please start again.');
+        setShowToast(true);
+      } finally {
+        setHydrating(false);
+      }
+    };
+    void hydrate();
+  }, [router]);
 
   const clearError = (field: keyof FormErrors) =>
     setFormErrors(prev => { const e = { ...prev }; delete e[field]; return e; });
@@ -101,7 +137,11 @@ export default function PersonalDetailsPage() {
     if (!formData.lastName.trim()) errors.lastName = 'Last name is required';
     if (!formData.occupation) errors.occupation = 'Occupation is required';
     if (!formData.address.trim()) errors.address = 'Address is required';
-    if (!formData.postcode.trim()) errors.postcode = 'Postcode is required';
+    const postcode = formData.postcode.trim().toUpperCase();
+    if (!postcode) errors.postcode = 'Postcode is required';
+    else if (!/^[A-Z]{1,2}\d[A-Z\d]?\s*\d[A-Z]{2}$/i.test(postcode)) {
+      errors.postcode = 'Enter a valid UK postcode';
+    }
     setFormErrors(prev => ({ ...prev, ...errors }));
     const dobResult = validateDOB();
     const hasErrors = Object.keys(errors).length > 0 || !dobResult.valid;
@@ -127,7 +167,7 @@ export default function PersonalDetailsPage() {
           dateOfBirth: isoDate,
           occupation: formData.occupation,
           addressLine1: formData.address.trim(),
-          postcode: formData.postcode.trim(),
+          postcode: formData.postcode.trim().toUpperCase(),
         }),
       });
 
@@ -153,7 +193,7 @@ export default function PersonalDetailsPage() {
   return (
     <div className="min-h-screen px-4 sm:px-6 py-6 pt-20 sm:pt-24 quote-page-bg">
       <div className="max-w-4xl mx-auto">
-        <StepProgressBar currentStep={3} totalSteps={10} />
+        <StepProgressBar currentStep={2} />
 
         <div className="form-card p-6 md:p-10 animate-form-enter">
           <div className="mb-8">
@@ -161,6 +201,12 @@ export default function PersonalDetailsPage() {
             <p className="text-lg text-gray-600">Enter the details of the driver — make sure they match their driving licence.</p>
           </div>
 
+          {hydrating ? (
+            <div className="flex items-center justify-center gap-3 py-16 text-gray-600">
+              <div className="w-7 h-7 border-4 border-blue-600 border-t-transparent rounded-full animate-spin" />
+              Restoring your details...
+            </div>
+          ) : (
           <div className="space-y-6">
             {/* Title */}
             <div className="animate-stagger-in" style={{ animationDelay: '0.05s' }}>
@@ -247,6 +293,7 @@ export default function PersonalDetailsPage() {
               </button>
             </div>
           </div>
+          )}
         </div>
       </div>
       {showToast && <Toast message={toastMessage} type="error" onClose={() => setShowToast(false)} />}

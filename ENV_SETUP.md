@@ -12,6 +12,9 @@ This project uses environment variables to configure the backend API URL for dep
 NEXT_PUBLIC_API_BASE_URL=http://localhost:8000
 STRIPE_SECRET_KEY=your_stripe_secret_key
 NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=your_stripe_publishable_key
+RESEND_API_KEY=your_resend_key
+CONTACT_INGEST_URL=
+CONTACT_INGEST_KEY=
 ```
 
 ## Environment Variable Details
@@ -21,6 +24,8 @@ NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=your_stripe_publishable_key
   - For production: Your deployed backend URL (e.g., `https://api.yourdomain.com`)
 - **STRIPE_SECRET_KEY**: Stripe secret key used server-side by the Next.js API route that creates Checkout Sessions
 - **NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY**: Stripe publishable key (kept for client-side compatibility/future use)
+- **CONTACT_INGEST_URL**: Optional full URL of `POST /api/admin/messages/ingest/` so contact form messages are stored for the admin portal
+- **CONTACT_INGEST_KEY**: Bearer secret for that ingest URL. Leave both unset until the admin API exists. Mail still sends without them.
 
 ## Important Notes
 

@@ -2,23 +2,22 @@
 
 interface StepProgressBarProps {
   currentStep: number;
-  totalSteps: number;
+  totalSteps?: number;
 }
 
 const MILESTONES = [
-  { step: 2, label: 'Vehicle' },
-  { step: 3, label: 'Driver' },
-  { step: 4, label: 'Licence' },
-  { step: 5, label: 'Quote' },
+  { step: 1, label: 'Vehicle' },
+  { step: 2, label: 'Driver' },
+  { step: 3, label: 'Licence' },
+  { step: 4, label: 'Quote' },
 ];
 
-export default function StepProgressBar({ currentStep, totalSteps }: StepProgressBarProps) {
+export default function StepProgressBar({ currentStep, totalSteps = 4 }: StepProgressBarProps) {
   const progressPercentage = Math.min(100, Math.max(0, (currentStep / totalSteps) * 100));
-  const currentMilestone = MILESTONES.find(m => m.step === currentStep);
+  const currentMilestone = MILESTONES.find((m) => m.step === currentStep);
 
   return (
     <div className="mb-8 sm:mb-10 animate-form-enter">
-      {/* Header row */}
       <div className="flex items-center justify-between mb-3 sm:mb-4">
         <div>
           <p className="text-xs sm:text-sm font-semibold uppercase tracking-wider text-blue-600">
@@ -38,9 +37,7 @@ export default function StepProgressBar({ currentStep, totalSteps }: StepProgres
         </div>
       </div>
 
-      {/* Track */}
       <div className="relative h-3 sm:h-3.5 rounded-full bg-gray-200/80 overflow-hidden shadow-inner">
-        {/* Fill */}
         <div
           className="absolute inset-y-0 left-0 rounded-full transition-all duration-700 ease-out"
           style={{
@@ -49,7 +46,6 @@ export default function StepProgressBar({ currentStep, totalSteps }: StepProgres
             boxShadow: '0 0 12px rgba(37, 99, 235, 0.5)',
           }}
         />
-        {/* Shimmer */}
         <div
           className="absolute inset-y-0 left-0 rounded-full overflow-hidden pointer-events-none"
           style={{ width: `${progressPercentage}%` }}
@@ -64,7 +60,6 @@ export default function StepProgressBar({ currentStep, totalSteps }: StepProgres
         </div>
       </div>
 
-      {/* Milestone dots */}
       <div className="relative mt-4 hidden sm:block">
         <div className="flex justify-between px-1">
           {MILESTONES.map((milestone) => {

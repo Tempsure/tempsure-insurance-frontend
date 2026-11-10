@@ -76,31 +76,39 @@ export default function ContactUs() {
   const contactMethods = [
     {
       title: 'Phone',
-      description: 'Speak with our team directly',
-      value: '+92 345 8629255',
-      icon: <Phone className="w-7 h-7" strokeWidth={2} aria-hidden />,
-      link: 'tel:+923458629255',
+      description: 'Speak with our dedicated team',
+      value: '08008629255',
+      hint: 'Free UK call',
+      icon: <Phone className="w-6 h-6" strokeWidth={2} aria-hidden />,
+      link: 'tel:08008629255',
+      accent: '#2563eb',
     },
     {
       title: 'Email',
-      description: 'Send us an email anytime',
+      description: 'Write to us anytime',
       value: 'info@tempsureinsurance.co.uk',
-      icon: <Mail className="w-7 h-7" strokeWidth={2} aria-hidden />,
+      hint: 'We reply within 24 hours',
+      icon: <Mail className="w-6 h-6" strokeWidth={2} aria-hidden />,
       link: 'mailto:info@tempsureinsurance.co.uk',
+      accent: '#0ea5e9',
     },
     {
       title: 'Address',
-      description: 'Visit our office',
+      description: 'Visit our London office',
       value: '5 Brayford Square, London, E1 0SG',
-      icon: <MapPin className="w-7 h-7" strokeWidth={2} aria-hidden />,
+      hint: 'By appointment',
+      icon: <MapPin className="w-6 h-6" strokeWidth={2} aria-hidden />,
       link: '#',
+      accent: '#1d4ed8',
     },
     {
       title: 'Business Hours',
-      description: 'When we\'re available',
-      value: 'Monday - Friday: 9am - 5pm',
-      icon: <Clock className="w-7 h-7" strokeWidth={2} aria-hidden />,
+      description: 'Authentic support when you need it',
+      value: 'Monday – Friday, 9am – 5pm',
+      hint: 'UK business hours',
+      icon: <Clock className="w-6 h-6" strokeWidth={2} aria-hidden />,
       link: '#',
+      accent: '#0369a1',
     },
   ];
 
@@ -117,7 +125,7 @@ export default function ContactUs() {
             <span className="shiny-text">Us</span>
           </h1>
           <p className="text-base sm:text-lg md:text-xl lg:text-2xl text-gray-700 animate-fade-in-up animation-delay-200 px-2">
-            Get in touch with our friendly team - we're here to help
+            Reach our dedicated, authentic team — clear answers, real people
           </p>
         </div>
       </section>
@@ -125,32 +133,58 @@ export default function ContactUs() {
       {/* Contact Methods */}
       <section className="py-12 sm:py-16 px-4 sm:px-6" style={{ backgroundColor: '#f5faff' }}>
         <div className="max-w-6xl mx-auto">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
-            {contactMethods.map((method, index) => (
-              <div
-                key={index}
-                ref={(el) => {
-                  sectionsRef.current[index] = el as HTMLElement | null;
-                }}
-                className="bg-white rounded-xl sm:rounded-2xl shadow-xl p-4 sm:p-6 transition-all duration-[var(--duration-smooth)] ease-[var(--ease-smooth)] hover:shadow-2xl hover:-translate-y-1 border-l-4 border-blue-600 text-center group"
-              >
-                <div className="icon-box icon-box-blue mx-auto mb-3 sm:mb-4 group-hover:shadow-md">
-                  {method.icon}
-                </div>
-                <h3 className="text-lg sm:text-xl font-bold text-gray-900 mb-2">{method.title}</h3>
-                <p className="text-xs sm:text-sm text-gray-600 mb-3 sm:mb-4">{method.description}</p>
-                {method.link !== '#' ? (
-                  <a
-                    href={method.link}
-                    className="text-blue-600 font-semibold hover:text-blue-700 transition-colors duration-200 cursor-pointer"
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5">
+            {contactMethods.map((method, index) => {
+              const CardInner = (
+                <>
+                  <div
+                    className="absolute inset-x-0 top-0 h-1 rounded-t-2xl opacity-90"
+                    style={{ background: `linear-gradient(90deg, ${method.accent}, ${method.accent}88)` }}
+                    aria-hidden
+                  />
+                  <div
+                    className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-2xl text-white shadow-md"
+                    style={{ background: `linear-gradient(145deg, ${method.accent} 0%, #1e3a8a 100%)` }}
                   >
+                    {method.icon}
+                  </div>
+                  <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-blue-700/70 mb-1">
+                    {method.hint}
+                  </p>
+                  <h3 className="text-lg sm:text-xl font-bold text-gray-900 mb-1.5">{method.title}</h3>
+                  <p className="text-sm text-gray-600 mb-4 leading-snug">{method.description}</p>
+                  <p className="text-[15px] sm:text-base font-semibold text-gray-900 break-words group-hover:text-blue-700 transition-colors">
                     {method.value}
-                  </a>
-                ) : (
-                  <p className="text-gray-700 font-semibold">{method.value}</p>
-                )}
-              </div>
-            ))}
+                  </p>
+                </>
+              );
+
+              const sharedClass =
+                'contact-method-card group relative overflow-hidden rounded-2xl bg-white p-5 sm:p-6 text-left shadow-[0_10px_30px_-12px_rgba(37,99,235,0.25)] ring-1 ring-blue-100/80 transition-all duration-[var(--duration-smooth)] ease-[var(--ease-smooth)] hover:-translate-y-1.5 hover:shadow-[0_18px_40px_-14px_rgba(37,99,235,0.35)] hover:ring-blue-200';
+
+              return method.link !== '#' ? (
+                <a
+                  key={index}
+                  href={method.link}
+                  ref={(el) => {
+                    sectionsRef.current[index] = el as HTMLElement | null;
+                  }}
+                  className={`${sharedClass} block cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500`}
+                >
+                  {CardInner}
+                </a>
+              ) : (
+                <div
+                  key={index}
+                  ref={(el) => {
+                    sectionsRef.current[index] = el as HTMLElement | null;
+                  }}
+                  className={sharedClass}
+                >
+                  {CardInner}
+                </div>
+              );
+            })}
           </div>
         </div>
       </section>
@@ -289,8 +323,8 @@ export default function ContactUs() {
             </h2>
             <p className="text-base sm:text-lg text-gray-700 mb-4 sm:mb-6">
               For urgent matters, claims, or emergency assistance, please call us directly at{' '}
-              <a href="tel:+923458629255" className="text-blue-600 font-semibold hover:text-blue-700 cursor-pointer">
-                +92 345 8629255
+              <a href="tel:08008629255" className="text-blue-600 font-semibold hover:text-blue-700 cursor-pointer">
+                08008629255
               </a>
               . Our team is available Monday to Friday, 9am to 5pm.
             </p>

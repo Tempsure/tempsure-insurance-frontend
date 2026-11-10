@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import Toast from '@/components/Toast';
@@ -60,8 +60,48 @@ export default function LicenceDetailsPage() {
   });
   const [formErrors, setFormErrors] = useState<FormErrors>({});
   const [submitting, setSubmitting] = useState(false);
+  const [hydrating, setHydrating] = useState(true);
   const [showToast, setShowToast] = useState(false);
   const [toastMessage, setToastMessage] = useState('');
+
+  useEffect(() => {
+    const hydrate = async () => {
+      try {
+        const res = await apiFetch('/api/quotes/session/me/');
+        const data = await res.json();
+        if (!res.ok) {
+          setToastMessage(data.error || 'Please start a new quote.');
+          setShowToast(true);
+          router.replace('/');
+          return;
+        }
+
+        const issuingCountry = (data.issuing_country || '') as FormData['issuingCountry'];
+        const rawLicence = String(data.licence_number || '').toUpperCase();
+        const isUkNi = issuingCountry === 'UK' || issuingCountry === 'NI';
+        setFormData({
+          issuingCountry,
+          euEeaCountry: data.eu_eea_country || '',
+          licenceType: (data.licence_type || '') as FormData['licenceType'],
+          enterLicenceNumber: rawLicence ? 'Yes' : data.licence_type ? 'No' : '',
+          licenceNumber: isUkNi && rawLicence.length >= 16
+            ? { part1: rawLicence.slice(0, 5), part2: rawLicence.slice(5, 11), part3: rawLicence.slice(11, 16) }
+            : { part1: '', part2: '', part3: '' },
+          euEeaLicenceNumber: issuingCountry === 'EU/EEA' ? rawLicence : '',
+          licenceLength: data.licence_length || '',
+          mobileNumber: data.mobile_number || '',
+          email: data.email || '',
+          confirmEmail: data.email || '',
+        });
+      } catch {
+        setToastMessage('Could not restore your quote. Please start again.');
+        setShowToast(true);
+      } finally {
+        setHydrating(false);
+      }
+    };
+    void hydrate();
+  }, [router]);
 
   const handleInputChange = (field: keyof FormData, value: string) => {
     setFormData(prev => ({ ...prev, [field]: value }));
@@ -125,11 +165,15 @@ export default function LicenceDetailsPage() {
     if (!mobile) errors.mobileNumber = 'Mobile number is required';
     else if (!/^07\d{9}$/.test(mobile)) errors.mobileNumber = 'Enter a valid UK mobile number (07XXXXXXXXX)';
 
-    const email = formData.email.trim();
+    const email = formData.email.trim().toLowerCase();
+    const confirmEmail = formData.confirmEmail.trim().toLowerCase();
     if (!email) errors.email = 'Email address is required';
     else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) errors.email = 'Please enter a valid email address';
-    else if (!formData.confirmEmail.trim()) errors.confirmEmail = 'Please confirm your email address';
-    else if (email !== formData.confirmEmail.trim()) errors.confirmEmail = 'Email addresses do not match';
+    else if (/\.(con|cpm|co\.uk\.uk|gmial\.com|gamil\.com|hotnail\.com)$/i.test(email)) {
+      errors.email = 'Please double-check your email address for typos';
+    }
+    else if (!confirmEmail) errors.confirmEmail = 'Please confirm your email address';
+    else if (email !== confirmEmail) errors.confirmEmail = 'Email addresses do not match';
 
     setFormErrors(errors);
     return Object.keys(errors).length === 0;
@@ -163,7 +207,7 @@ export default function LicenceDetailsPage() {
           licenceNumber,
           licenceLength: formData.licenceLength,
           mobileNumber: formData.mobileNumber.trim().replace(/\s/g, ''),
-          email: formData.email.trim(),
+          email: formData.email.trim().toLowerCase(),
         }),
       });
       const data = await res.json();
@@ -190,7 +234,7 @@ export default function LicenceDetailsPage() {
   return (
     <div className="min-h-screen px-4 sm:px-6 py-6 sm:py-8 pt-20 sm:pt-24 quote-page-bg">
       <div className="max-w-4xl mx-auto">
-        <StepProgressBar currentStep={4} totalSteps={10} />
+        <StepProgressBar currentStep={3} />
 
         <div className="form-card p-4 sm:p-6 md:p-8 lg:p-10 animate-form-enter">
           <div className="mb-6 sm:mb-8">
@@ -198,6 +242,12 @@ export default function LicenceDetailsPage() {
             <p className="text-base sm:text-lg text-gray-600">Enter the licence details of the driver to be insured.</p>
           </div>
 
+          {hydrating ? (
+            <div className="flex items-center justify-center gap-3 py-16 text-gray-600">
+              <div className="w-7 h-7 border-4 border-blue-600 border-t-transparent rounded-full animate-spin" />
+              Restoring your details...
+            </div>
+          ) : (
           <div className="space-y-6">
             {/* Issuing Country */}
             <div>
@@ -335,17 +385,40 @@ export default function LicenceDetailsPage() {
             {/* Email */}
             <div>
               <label className="form-label">What is the driver's email address?</label>
-              <p className="text-sm text-gray-600 mb-3">This is the email address we will use when we send the policy documents.</p>
-              <input type="email" value={formData.email} onChange={e => handleInputChange('email', e.target.value)}
-                placeholder="example@example.com" className={inputClass(formErrors.email)} />
+              <p className="text-sm text-gray-600 mb-3">
+                We send your policy and certificate to this email. Please type it carefully — confirm email cannot be pasted.
+              </p>
+              <input
+                type="email"
+                value={formData.email}
+                onChange={e => handleInputChange('email', e.target.value)}
+                placeholder="example@example.com"
+                autoComplete="email"
+                inputMode="email"
+                className={inputClass(formErrors.email)}
+              />
               {formErrors.email && <p className="form-error">{formErrors.email}</p>}
             </div>
 
             {/* Confirm Email */}
             <div>
               <label className="form-label">Please confirm the driver's email address</label>
-              <input type="email" value={formData.confirmEmail} onChange={e => handleInputChange('confirmEmail', e.target.value)}
-                placeholder="example@example.com" className={inputClass(formErrors.confirmEmail)} />
+              <input
+                type="email"
+                value={formData.confirmEmail}
+                onChange={e => handleInputChange('confirmEmail', e.target.value)}
+                onPaste={(e) => {
+                  e.preventDefault();
+                  setFormErrors(prev => ({
+                    ...prev,
+                    confirmEmail: 'Please type the email again instead of pasting',
+                  }));
+                }}
+                placeholder="Re-type email address"
+                autoComplete="off"
+                inputMode="email"
+                className={inputClass(formErrors.confirmEmail)}
+              />
               {formErrors.confirmEmail && <p className="form-error">{formErrors.confirmEmail}</p>}
             </div>
 
@@ -378,6 +451,7 @@ export default function LicenceDetailsPage() {
               </button>
             </div>
           </div>
+          )}
         </div>
       </div>
 

@@ -22,6 +22,8 @@ interface QuoteSession {
   last_name: string;
   licence_type: string;
   licence_length: string;
+  mobile_number: string;
+  email: string;
   calculated_price: string | null;
   policy_number: string | null;
 }
@@ -102,12 +104,17 @@ export default function QuotesPage() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ stripeSessionId }),
       });
-      const verifyData = (await verifyRes.json()) as { paymentIntentId?: string; amountPaid?: number; error?: string };
+      const verifyData = (await verifyRes.json()) as {
+        paymentIntentId?: string;
+        amountPaid?: number;
+        quoteSessionId?: string;
+        error?: string;
+      };
       if (!verifyRes.ok || !verifyData.paymentIntentId) {
         throw new Error(verifyData.error || 'Payment verification failed.');
       }
 
-      // Step 2: tell Django to create the policy
+      // Step 2: tell Django to create the policy (Stripe metadata is source of truth)
       const confirmRes = await apiFetch('/api/quotes/confirm-payment/', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -115,6 +122,7 @@ export default function QuotesPage() {
           paymentIntentId: verifyData.paymentIntentId,
           stripeSessionId,
           amountPaid: verifyData.amountPaid ?? 0,
+          quoteSessionId: verifyData.quoteSessionId,
         }),
       });
       const confirmData = (await confirmRes.json()) as { policyNumber?: string; error?: string };
@@ -125,7 +133,11 @@ export default function QuotesPage() {
       router.push(`/policy/${confirmData.policyNumber}`);
     } catch (err) {
       setConfirming(false);
-      setToastMessage(err instanceof Error ? err.message : 'Payment confirmation failed. Please contact support.');
+      setToastMessage(
+        err instanceof Error
+          ? `${err.message} If you were charged, sign in or contact support with this Stripe session: ${stripeSessionId}`
+          : `Payment confirmation failed. If you were charged, contact support with Stripe session ${stripeSessionId}.`,
+      );
       setShowToast(true);
       setToastType('error');
       loadData();
@@ -144,10 +156,12 @@ export default function QuotesPage() {
           currency: 'gbp',
           description: `TempSure temporary insurance for ${session.registration_number.toUpperCase()}`,
           quoteSessionId: session.id,
+          customerEmail: session.email,
           metadata: {
             quoteSessionId: session.id,
             registration: session.registration_number,
             driverName: `${session.first_name} ${session.last_name}`,
+            customerEmail: session.email,
           },
         }),
       });
@@ -177,7 +191,7 @@ export default function QuotesPage() {
   return (
     <div className="min-h-screen px-4 sm:px-6 py-6 sm:py-8 pt-20 sm:pt-24 quote-page-bg">
       <div className="max-w-5xl mx-auto">
-        <StepProgressBar currentStep={5} totalSteps={10} />
+        <StepProgressBar currentStep={4} />
 
         {paymentCancelled && (
           <div className="mb-4 rounded-xl border border-yellow-200 bg-yellow-50 p-4 text-yellow-800 animate-form-enter">
@@ -266,6 +280,24 @@ export default function QuotesPage() {
                     </div>
                   </div>
                 </div>
+              </div>
+
+              {/* Contact confirmation */}
+              <div className="quote-section-card p-4 sm:p-6 bg-white rounded-xl border-2 border-blue-200 animate-stagger-in" style={{ animationDelay: '0.12s' }}>
+                <h2 className="text-lg sm:text-xl font-bold text-gray-900 mb-3 sm:mb-4">Certificate delivery</h2>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
+                  <div>
+                    <div className="text-xs sm:text-sm text-gray-500 mb-1">Email for policy &amp; certificate</div>
+                    <div className="text-sm sm:text-base font-semibold text-gray-900 break-all">{session.email || '—'}</div>
+                  </div>
+                  <div>
+                    <div className="text-xs sm:text-sm text-gray-500 mb-1">Mobile</div>
+                    <div className="text-sm sm:text-base font-semibold text-gray-900">{session.mobile_number || '—'}</div>
+                  </div>
+                </div>
+                <p className="mt-3 text-xs sm:text-sm text-gray-600">
+                  After payment we email your certificate to this address. To change it, go back to licence details.
+                </p>
               </div>
 
               {/* What's Covered */}

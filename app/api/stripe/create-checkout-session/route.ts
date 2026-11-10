@@ -8,6 +8,7 @@ type CheckoutRequestBody = {
   currency?: string;
   description?: string;
   quoteSessionId?: string;
+  customerEmail?: string;
   metadata?: Record<string, string | number | boolean>;
 };
 
@@ -73,9 +74,12 @@ export async function POST(request: NextRequest) {
     // Insurance is not an eligible Managed Payments category. Stripe enabled
     // Managed Payments by default on this account; turn it off for this session.
     // The SDK types may lag the API, so the flag is passed through a cast.
+    const customerEmail = body.customerEmail?.trim().toLowerCase();
+
     const sessionParams = {
       mode: 'payment' as const,
       managed_payments: { enabled: false },
+      ...(customerEmail ? { customer_email: customerEmail } : {}),
       success_url: `${origin}/quotes?payment=success&session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${origin}/quotes?payment=cancelled`,
       line_items: [

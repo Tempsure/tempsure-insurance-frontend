@@ -111,8 +111,29 @@ export default function VehicleDetailsPage() {
       try {
         setLoading(true);
 
+        const decodedReg = decodeURIComponent(regNumber).replace(/\s+/g, '').toUpperCase();
+
+        // Reuse an existing active session when the registration matches; otherwise create one.
+        let sessionReady = false;
+        try {
+          const existingRes = await apiFetch('/api/quotes/session/me/');
+          if (existingRes.ok) {
+            const existing = await existingRes.json();
+            const existingReg = String(existing.registration_number || '').replace(/\s+/g, '').toUpperCase();
+            if (!existingReg || existingReg === decodedReg) {
+              sessionReady = true;
+            }
+          }
+        } catch {
+          // Fall through to create a fresh session.
+        }
+
+        const sessionPromise = sessionReady
+          ? Promise.resolve(new Response(null, { status: 200 }))
+          : apiFetch('/api/quotes/session/', { method: 'POST' });
+
         const [sessionRes, vehicleRes] = await Promise.all([
-          apiFetch('/api/quotes/session/', { method: 'POST' }),
+          sessionPromise,
           fetch(getApiUrl('/api/vehicles/lookup/'), {
             method: 'POST',
             credentials: 'include',
@@ -256,7 +277,7 @@ export default function VehicleDetailsPage() {
   return (
     <div className="min-h-screen px-4 sm:px-6 py-6 pt-20 sm:pt-24 quote-page-bg">
       <div className="max-w-4xl mx-auto">
-        <StepProgressBar currentStep={2} totalSteps={10} />
+        <StepProgressBar currentStep={1} />
 
         <div className="form-card p-6 md:p-10 animate-form-enter">
           <div className="mb-8">

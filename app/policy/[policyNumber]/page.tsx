@@ -268,9 +268,9 @@ export default function PolicyPage() {
 
             {/* Download */}
             <div className="pt-4 border-t-2 border-gray-200 flex flex-col sm:flex-row gap-3">
-              <button onClick={() => router.back()}
+              <button onClick={() => router.push('/dashboard')}
                 className="w-full sm:w-auto px-6 py-3 bg-gray-200 text-gray-700 rounded-xl font-semibold hover:bg-gray-300 transition-all cursor-pointer">
-                ← Back
+                ← My policies
               </button>
               <button onClick={downloadCertificate} disabled={downloading}
                 className="flex-1 px-6 py-3 bg-blue-600 text-white rounded-xl font-bold text-base sm:text-lg hover:bg-blue-700 transition-all shadow-lg cursor-pointer flex items-center justify-center gap-3 disabled:opacity-60">

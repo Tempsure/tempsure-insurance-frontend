@@ -23,9 +23,14 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Payment not completed' }, { status: 400 });
     }
 
+    const quoteSessionId = session.metadata?.quoteSessionId || undefined;
+
     return NextResponse.json({
       paymentIntentId: (session.payment_intent as string) || stripeSessionId,
       amountPaid: (session.amount_total ?? 0) / 100,
+      quoteSessionId,
+      stripeSessionId: session.id,
+      customerEmail: session.customer_details?.email || session.customer_email || undefined,
     });
   } catch (error) {
     console.error('Stripe verify-payment error:', error);

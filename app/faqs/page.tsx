@@ -32,19 +32,23 @@ export default function FAQs() {
       faqs: [
         {
           question: 'How do I get a quote?',
-          answer: 'Simply enter your vehicle registration number in the search box on our homepage and click "Get a Quote". You\'ll receive an instant quote within 2 minutes. You can also browse our insurance modules (Temporary Car Insurance, Temporary Van Insurance, or Learner Driver Insurance) for more specific options.',
+          answer:
+            'Enter your vehicle registration on the homepage and continue through vehicle, driver, and licence details. You will see your price on the quote page before payment.',
         },
         {
-          question: 'What information do I need to get a quote?',
-          answer: 'To get a quote, you\'ll need your vehicle registration number. For the full application, you\'ll need your driving license details, personal information (name, address, date of birth), and payment information. The exact requirements may vary depending on the type of insurance you\'re applying for.',
+          question: 'What information do I need?',
+          answer:
+            'You need the vehicle registration, driver personal details, a valid UK/NI/EU/EEA licence, a UK mobile number, and a confirmed email address for policy documents.',
         },
         {
-          question: 'How long does it take to get a quote?',
-          answer: 'Our instant quote system provides you with a quote within 2 minutes of entering your registration number. Once you complete the full application and make payment, your policy can be active immediately.',
+          question: 'How long does the quote take?',
+          answer:
+            'Most customers finish the quote steps in a few minutes. Cover can start immediately after successful payment, or at the future start time you choose.',
         },
         {
-          question: 'Can I get a quote without a registration number?',
-          answer: 'While we recommend having your registration number for the most accurate quote, you can still browse our insurance options and get an estimate. However, you\'ll need the registration number to complete the purchase.',
+          question: 'Do I need a registration number?',
+          answer:
+            'Yes. Temporary cover is priced and issued against a specific UK-registered vehicle, so the registration number is required to get an accurate quote and policy.',
         },
       ],
     },
@@ -53,19 +57,28 @@ export default function FAQs() {
       faqs: [
         {
           question: 'How long does temporary insurance last?',
-          answer: 'Temporary car and van insurance can last from 1 hour to 28 days. Learner driver insurance can last from 1 day to 24 weeks (6 months). You can choose the duration that best suits your needs when getting a quote.',
+          answer:
+            'Temporary car and van cover can run from 1 hour up to 28 days. Learner driver cover options depend on the product selected at quote time.',
         },
         {
-          question: 'What types of vehicles can I insure?',
-          answer: 'We provide insurance for cars, vans (up to 3.5 tonnes GVW and value up to £65,000), and vehicles for learner drivers (private cars up to £50,000). The vehicle must be registered in the UK and meet our eligibility criteria.',
+          question: 'What vehicles can I insure?',
+          answer:
+            'Cars, vans (typically up to 3.5 tonnes GVW), and learner-driver private cars that meet our eligibility rules. The vehicle must be UK-registered.',
         },
         {
-          question: 'Is my No Claims Discount (NCD) protected?',
-          answer: 'Yes! Temporary car insurance is a standalone policy, so if you have an accident while using temporary insurance, it will not affect your primary policy\'s No Claims Discount. The claim goes through the temporary policy, not your annual one.',
+          question: 'Is my No Claims Discount protected?',
+          answer:
+            'Yes. TempSure temporary cover is a standalone policy, so a claim on it does not affect the No Claims Discount on a separate annual policy.',
         },
         {
-          question: 'What coverage is included in my policy?',
-          answer: 'Coverage varies by policy type, but typically includes third-party liability, fire and theft, and comprehensive coverage options. Please review your specific policy documents for complete coverage details. Social, Domestic, and Pleasure (SDP) use is standard, with business use available for van insurance.',
+          question: 'What is covered?',
+          answer:
+            'Policies typically include comprehensive cover options with third-party liability, fire and theft protection, and social, domestic and pleasure use. Always check your certificate and schedule for your exact terms.',
+        },
+        {
+          question: 'Will my policy be on the MID?',
+          answer:
+            'Yes. Short-term motor policies are submitted to the Motor Insurance Database (MID). Keep a copy of your certificate with you during the cover period.',
         },
       ],
     },
@@ -73,41 +86,84 @@ export default function FAQs() {
       title: 'Eligibility & Requirements',
       faqs: [
         {
-          question: 'Can I get insurance if I\'m under 25?',
-          answer: 'Yes, but there are age restrictions. For temporary car insurance, you must be at least 18 years old. For van insurance, you must be at least 21 years old. Learner driver insurance is available for those with a valid provisional license, regardless of age.',
+          question: 'What ages can get cover?',
+          answer:
+            'Drivers must usually be between 17 and 75. Some product rules may differ for vans or learner cover, and the quote form will stop ages outside our accepted range.',
         },
         {
-          question: 'What license do I need?',
-          answer: 'You must hold a valid UK, EU, or EEA driving license. For learner driver insurance, you need a valid provisional license. The system will validate your license details during the application process.',
+          question: 'What licence do I need?',
+          answer:
+            'A valid UK, Northern Ireland, or EU/EEA licence. Learner cover requires a valid provisional licence where that product applies.',
         },
         {
-          question: 'Can I insure a vehicle I don\'t own?',
-          answer: 'Yes, temporary insurance is designed for situations where you\'re borrowing or using someone else\'s vehicle. However, you must have the owner\'s permission and the legal right to drive the vehicle.',
+          question: 'Can I insure a car I do not own?',
+          answer:
+            'Yes, with the owner’s permission and a legal right to drive it. Temporary cover is commonly used when borrowing a vehicle.',
         },
         {
-          question: 'Do you offer business use insurance?',
-          answer: 'Yes, our Temporary Van Insurance module specifically includes business use for tradesmen, couriers, and other business purposes. However, certain uses like "Hire and Reward" (taxi services) or carrying hazardous materials are excluded. Please check the policy details for specific coverage.',
+          question: 'Do you offer business use?',
+          answer:
+            'Business use can be available on selected van products. Hire and reward, taxi use, and hazardous goods are excluded. Check your quote and certificate for permitted use.',
+        },
+        {
+          question: 'Is learner driver cover different?',
+          answer:
+            'Yes. Learner products are designed for provisional licence holders and may require a qualified supervisor. Follow the learner product page rules shown during quote.',
         },
       ],
     },
     {
-      title: 'Claims & Cancellations',
+      title: 'Certificates & Documents',
+      faqs: [
+        {
+          question: 'When do I get my certificate?',
+          answer:
+            'After successful payment we email your policy confirmation and certificate PDF to the email address you confirmed in the quote. You can also download it from your policy page.',
+        },
+        {
+          question: 'I did not receive my certificate email. What should I do?',
+          answer:
+            'Check spam/junk first. Then sign in with your email and date of birth to download the certificate from your account. If it is still missing, contact us on 08008629255 or info@tempsureinsurance.co.uk with your policy number.',
+        },
+        {
+          question: 'Can I change the email after buying?',
+          answer:
+            'The certificate is issued to the email confirmed before payment. Contact support if you need documents resent to a corrected address for an existing policy.',
+        },
+        {
+          question: 'Do I need to print the certificate?',
+          answer:
+            'A digital copy is valid evidence of cover. We recommend keeping it available on your phone or printed while driving.',
+        },
+      ],
+    },
+    {
+      title: 'Claims, Cancellations & Refunds',
       faqs: [
         {
           question: 'How do I make a claim?',
-          answer: 'If you need to make a claim, contact us immediately at +92 345 8629255 or email claims@tempsureinsurance.com. Have your policy number ready and provide as much detail as possible about the incident. Our claims team will guide you through the process.',
+          answer:
+            'Call 08008629255 or email info@tempsureinsurance.co.uk as soon as possible. Have your policy number, vehicle registration, and incident details ready.',
         },
         {
           question: 'Can I cancel my policy?',
-          answer: 'Yes, you can cancel your policy at any time. Refunds will be calculated based on the unused portion of your policy, minus any applicable cancellation fees. If you\'ve made a claim, cancellation may affect your refund. Please contact us to discuss your specific situation.',
+          answer:
+            'Contact us to request cancellation. Refunds, if any, depend on unused cover time, whether cover has started, and whether a claim has been made.',
         },
         {
-          question: 'What happens if I need to extend my policy?',
-          answer: 'You can extend your temporary policy by purchasing a new policy for the additional period. Unfortunately, we cannot extend existing policies, but you can purchase a new policy to cover the extended period.',
+          question: 'How do refunds work?',
+          answer:
+            'Eligible unused cover may be refunded after admin review. Stripe card refunds are handled by our team once the policy is marked for refund. Claimed policies usually have no refund.',
         },
         {
-          question: 'What documents do I need for a claim?',
-          answer: 'You\'ll need your policy number, driving license, vehicle registration documents, photos of the damage (if applicable), and any relevant incident reports or police reports. Our claims team will provide you with a complete list of required documents based on your specific claim.',
+          question: 'Can I extend my policy?',
+          answer:
+            'Existing short-term policies are not extended in place. Buy a new policy for the extra period you need.',
+        },
+        {
+          question: 'What documents are needed for a claim?',
+          answer:
+            'Policy number, driving licence, registration details, photos of damage where relevant, and any police or incident references. Our team will confirm anything else required.',
         },
       ],
     },
@@ -116,40 +172,58 @@ export default function FAQs() {
       faqs: [
         {
           question: 'What payment methods do you accept?',
-          answer: 'We accept all major credit and debit cards (Visa, Mastercard, American Express). Payment must be made in full before your coverage begins. All payments are processed securely using 256-bit SSL encryption.',
+          answer:
+            'Major debit and credit cards via secure Stripe Checkout. Full payment is taken before cover begins.',
         },
         {
-          question: 'When will I be charged?',
-          answer: 'You\'ll be charged immediately upon completing your purchase. Your policy will be active as soon as payment is confirmed, which typically happens within seconds.',
+          question: 'When am I charged?',
+          answer:
+            'You are charged when you complete Stripe Checkout. Your policy is created once payment is confirmed.',
         },
         {
-          question: 'Can I pay in installments?',
-          answer: 'No, temporary insurance policies require full payment upfront. This is because temporary policies are short-term and the premium is calculated for the entire duration you select.',
+          question: 'Can I pay in instalments?',
+          answer:
+            'No. Temporary policies are short-term and require full payment upfront.',
         },
         {
-          question: 'Will I receive a receipt?',
-          answer: 'Yes, you\'ll receive an email confirmation with your policy details and receipt immediately after purchase. You can also download your policy documents and receipts from your account dashboard.',
+          question: 'Will I get a receipt?',
+          answer:
+            'Yes. You receive an email confirmation with policy details after purchase, and you can view the policy in your account.',
+        },
+        {
+          question: 'My card was charged but I cannot see a policy. What now?',
+          answer:
+            'Sign in with the same email and date of birth used in the quote. If nothing appears, contact support with your Stripe/payment email and registration number so we can recover the policy and resend the certificate.',
         },
       ],
     },
     {
-      title: 'Technical & Account',
+      title: 'Account & Support',
       faqs: [
         {
-          question: 'How do I access my policy documents?',
-          answer: 'After purchasing your policy, you\'ll receive an email with a link to download your policy documents. You can also access them by logging into your account on our website or by contacting our customer service team.',
+          question: 'How do I sign in?',
+          answer:
+            'Use the email address from your quote and your date of birth. There is no password to reset.',
         },
         {
-          question: 'I forgot my password. How do I reset it?',
-          answer: 'Click on "Sign In" and then select "Forgot Password". Enter your email address and we\'ll send you a link to reset your password. If you need further assistance, contact our support team.',
+          question: 'How do I access my documents?',
+          answer:
+            'Open your confirmation email or sign in to your account, open the policy, and download the certificate PDF.',
         },
         {
-          question: 'Can I make changes to my policy after purchase?',
-          answer: 'Most changes to temporary policies are not possible after purchase due to their short-term nature. However, you can cancel your policy and purchase a new one with the correct details. For specific situations, please contact our customer service team.',
+          question: 'Can I change policy details after purchase?',
+          answer:
+            'Most temporary policy details cannot be edited after issue. Cancel and buy a new policy if details were wrong, or contact support for advice.',
         },
         {
-          question: 'Is my personal information secure?',
-          answer: 'Yes, we take data security seriously. All information is encrypted using 256-bit SSL encryption, and we comply with GDPR and UK data protection regulations. Please see our Privacy Policy for more details.',
+          question: 'Is my information secure?',
+          answer:
+            'Yes. Payments run through Stripe and personal data is handled under UK GDPR requirements. See our Privacy Policy for full details.',
+        },
+        {
+          question: 'How can I contact TempSure?',
+          answer:
+            'Call 08008629255 (Monday–Friday, 9am–5pm), email info@tempsureinsurance.co.uk, or use the Contact Us form. Our office address is 5 Brayford Square, London, E1 0SG.',
         },
       ],
     },
@@ -157,7 +231,6 @@ export default function FAQs() {
 
   return (
     <div className="min-h-screen" style={{ backgroundColor: '#f5faff' }}>
-      {/* Header Section */}
       <section
         className="relative py-20 px-4 pt-32"
         style={{ backgroundColor: '#f5faff' }}
@@ -168,15 +241,15 @@ export default function FAQs() {
             <span className="shiny-text">Questions</span>
           </h1>
           <p className="text-xl md:text-2xl text-gray-700 animate-fade-in-up animation-delay-200">
-            Find quick answers to the most common questions
+            Quotes, certificates, payments, claims, and account help — all in one place
           </p>
         </div>
       </section>
 
-      {/* FAQ Categories */}
       {faqCategories.map((category, categoryIndex) => (
         <section
-          key={categoryIndex}
+          key={category.title}
+          id={category.title.toLowerCase().replace(/[^a-z0-9]+/g, '-')}
           className="py-16 px-4"
           style={{ backgroundColor: '#f5faff' }}
         >
@@ -192,10 +265,10 @@ export default function FAQs() {
               </h2>
               <div className="space-y-4">
                 {category.faqs.map((faq, faqIndex) => {
-                  const globalIndex = categoryIndex * 10 + faqIndex;
+                  const globalIndex = categoryIndex * 20 + faqIndex;
                   return (
                     <div
-                      key={faqIndex}
+                      key={faq.question}
                       className="border-2 border-gray-200 rounded-xl overflow-hidden transition-all duration-300 hover:border-blue-400"
                     >
                       <button
@@ -228,7 +301,6 @@ export default function FAQs() {
         </section>
       ))}
 
-      {/* Contact Support Section */}
       <section className="py-16 px-4" style={{ backgroundColor: '#f5faff' }}>
         <div className="max-w-4xl mx-auto">
           <div className="bg-gradient-to-br from-blue-50 to-blue-100 rounded-2xl p-8 md:p-12 shadow-xl text-center">
@@ -236,7 +308,7 @@ export default function FAQs() {
               Still Have Questions?
             </h2>
             <p className="text-lg text-gray-700 mb-8">
-              Can't find what you're looking for? Our support team is here to help you.
+              Our dedicated team can help with quotes, certificates, payments, and claims.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link
@@ -255,11 +327,11 @@ export default function FAQs() {
             <div className="mt-6">
               <p className="text-gray-700 mb-2">
                 Or call us directly at{' '}
-                <a href="tel:+923458629255" className="text-blue-600 font-semibold hover:text-blue-700 cursor-pointer">
-                  +92 345 8629255
+                <a href="tel:08008629255" className="text-blue-600 font-semibold hover:text-blue-700 cursor-pointer">
+                  08008629255
                 </a>
               </p>
-              <p className="text-sm text-gray-600">Monday - Friday, 9am - 5pm</p>
+              <p className="text-sm text-gray-600">Monday - Friday, 9am - 5pm · info@tempsureinsurance.co.uk</p>
             </div>
           </div>
         </div>
@@ -267,4 +339,3 @@ export default function FAQs() {
     </div>
   );
 }
-

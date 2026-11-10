@@ -136,7 +136,7 @@ export default function TermsAndConditions() {
       title: 'Contact Information',
       content: `If you have any questions about these Terms and Conditions, please contact us at:
 - Email: legal@tempsureinsurance.com
-- Phone: +92 345 8629255
+- Phone: 08008629255
 - Address: TempSure Insurance, 5 Brayford Square, London, E1 0SG`,
     },
   ];

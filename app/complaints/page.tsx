@@ -35,7 +35,7 @@ export default function Complaints() {
 
 **Online**: Complete our online complaints form on this page
 **Email**: Send your complaint to complaints@tempsureinsurance.com
-**Phone**: Call us on +92 345 8629255 (Monday to Friday, 9am to 5pm)
+**Phone**: Call us on 08008629255 (Monday to Friday, 9am to 5pm)
 **Post**: Write to us at TempSure Insurance, 5 Brayford Square, London, E1 0SG
 
 Please include:
@@ -114,13 +114,13 @@ You must refer your complaint to the FOS within 6 months of receiving our final 
 
 **Complaints Department**
 - Email: complaints@tempsureinsurance.com
-- Phone: +92 345 8629255
+- Phone: 08008629255
 - Hours: Monday to Friday, 9am to 5pm
 - Address: TempSure Insurance, 5 Brayford Square, London, E1 0SG
 
 **General Enquiries**
 - Email: info@tempsureinsurance.com
-- Phone: +92 345 8629255`,
+- Phone: 08008629255`,
     },
   ];
 
