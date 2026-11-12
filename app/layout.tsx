@@ -5,7 +5,9 @@ import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import JsonLd from "@/components/JsonLd";
 import { getSiteUrl } from "@/lib/site";
+import { absoluteUrl, organizationJsonLd, SITE_NAME } from "@/lib/seo";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -19,10 +21,70 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   metadataBase: new URL(getSiteUrl()),
-  title: "TempSure Insurance - Get Your Car Insurance Quote",
-  description: "Get instant car insurance quotes by entering your registration number. Fast, reliable, and affordable coverage.",
+  title: {
+    default: `${SITE_NAME} | Temporary Car, Van & Learner Insurance UK`,
+    template: `%s | ${SITE_NAME}`,
+  },
+  description:
+    "Get temporary car, van and learner driver insurance in the UK from 1 hour to 28 days. Instant online quotes and certificates.",
+  applicationName: SITE_NAME,
+  keywords: [
+    "temporary car insurance",
+    "short term car insurance",
+    "temporary van insurance",
+    "learner driver insurance",
+    "hourly car insurance",
+    "daily car insurance UK",
+  ],
+  authors: [{ name: SITE_NAME }],
+  creator: SITE_NAME,
+  publisher: SITE_NAME,
+  category: "insurance",
+  formatDetection: {
+    telephone: true,
+    email: true,
+    address: true,
+  },
   verification: {
     google: "CG4wWHQBJO4FzfObFyGfa2npzjnn01X2ZmgR0dnp0rw",
+  },
+  alternates: {
+    canonical: absoluteUrl("/"),
+  },
+  openGraph: {
+    type: "website",
+    locale: "en_GB",
+    url: absoluteUrl("/"),
+    siteName: SITE_NAME,
+    title: `${SITE_NAME} | Temporary Car, Van & Learner Insurance UK`,
+    description:
+      "Temporary UK motor insurance from 1 hour to 28 days. Instant quotes and certificates for cars, vans and learner drivers.",
+    images: [
+      {
+        url: absoluteUrl("/images/tempsure-min.jpg"),
+        width: 1200,
+        height: 630,
+        alt: "TempSure temporary motor insurance",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: `${SITE_NAME} | Temporary Car, Van & Learner Insurance UK`,
+    description:
+      "Temporary UK motor insurance from 1 hour to 28 days. Instant quotes and certificates.",
+    images: [absoluteUrl("/images/tempsure-min.jpg")],
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+      "max-video-preview": -1,
+    },
   },
   icons: {
     icon: [
@@ -40,10 +102,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en-GB">
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
+        <JsonLd data={organizationJsonLd()} />
         <div className="flex flex-col min-h-screen">
           <Navbar />
           <main className="grow pt-16 lg:pt-0">

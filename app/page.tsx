@@ -1,7 +1,22 @@
+import type { Metadata } from 'next';
 import HeroSection from '@/components/HeroSection';
 import WhatsCoveredSection from '@/components/WhatsCoveredSection';
 import ProcessSection from '@/components/ProcessSection';
 import ModulesSection from '@/components/ModulesSection';
+import { buildPageMetadata } from '@/lib/seo';
+
+export const metadata: Metadata = buildPageMetadata({
+  title: 'Temporary Car, Van & Learner Insurance UK',
+  description:
+    'Instant temporary car, van and learner driver insurance from 1 hour to 28 days. Get an online quote with your registration and receive your certificate straight away.',
+  path: '/',
+  keywords: [
+    'temporary car insurance UK',
+    'short term car insurance',
+    'temporary van insurance',
+    'learner driver insurance',
+  ],
+});
 
 export default function Home() {
   return (
@@ -46,4 +61,3 @@ export default function Home() {
     </>
   );
 }
-
